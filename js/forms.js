@@ -57,26 +57,39 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             event.stopPropagation();
         } else {
+            event.preventDefault();
+
             const email_v = document.getElementById("email").value;
             const surname_v = document.getElementById("lastName").value;
             const name_v = document.getElementById("name").value;
             const inputPass_v = document.getElementById("exampleInputPassword1").value;
             const phone_v = document.getElementById('phone').value;
+            const profilePicInput = document.getElementById('image');
 
-            let user = {
-                email: email_v,
-                surname: surname_v,
-                name: name_v,
-                password: inputPass_v,
-                phone: phone_v
-            };
-            
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-            users.push(user);
-            localStorage.setItem("users", JSON.stringify(users));
-            alert("Реєстрація успішна!");
+            if (profilePicInput.files && profilePicInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageDataUrl = e.target.result;
+
+                    let user = {
+                        email: email_v,
+                        surname: surname_v,
+                        name: name_v,
+                        password: inputPass_v,
+                        phone: phone_v,
+                        profilePic: imageDataUrl
+                    };
+
+                    let users = JSON.parse(localStorage.getItem("users")) || [];
+                    users.push(user);
+                    localStorage.setItem("users", JSON.stringify(users));
+                    alert("Registration successful!");
+                }
+                reader.readAsDataURL(profilePicInput.files[0]);
+            } else {
+                alert("Please select a profile picture.");
+            }
         }
         form.classList.add('was-validated');
     }, false);
 });
-
