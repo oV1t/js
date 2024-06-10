@@ -3,3 +3,8 @@
     padding-bottom: 3rem;
     color: rgb(var(--bs-tertiary-color-rgb));
 }
+
+#homeImage{
+    width: 10%;
+    height: 10%;
+}
